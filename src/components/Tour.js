@@ -1,22 +1,33 @@
-import React,{useState} from 'react'
+import React, { useState } from "react";
 
-const Tour = ({id,image,info,price,name,removeTour}) => {
-    const [readMore,setReadMore]=useState(false);
-    return (
-    <article className="single-tour">
+const Tour = ({ id, image, info, price, name, removeTour }) => {
+  const [readMore, setReadMore] = useState(false);
+
+  return (
+    <article className="single-tour" id={`tour-item-${id}`}>
       <img src={image} alt={name} />
       <footer>
         <div className="tour-info">
           <h4>{name}</h4>
           <h4 className="tour-price">${price}</h4>
         </div>
-        <p>
+
+        <p id={`tour-item-para-${id}`}>
           {readMore ? info : `${info.substring(0, 200)}...`}
-          <button onClick={() => setReadMore(!readMore)} className="toggle-btn">
+          <button
+            className="toggle-btn"
+            id={`show-more-btn-${id}`}
+            onClick={() => setReadMore(!readMore)}
+          >
             {readMore ? "Show less" : "Show more"}
           </button>
         </p>
-        <button className="delete-btn" onClick={() => removeTour(id)}>
+
+        <button
+          className="delete-btn"
+          id={`delete-btn-${id}`}
+          onClick={() => removeTour(id)}
+        >
           Remove
         </button>
       </footer>
@@ -24,5 +35,4 @@ const Tour = ({id,image,info,price,name,removeTour}) => {
   );
 };
 
-
-export default Tour
+export default Tour;
