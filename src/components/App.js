@@ -16,15 +16,18 @@ const App = () => {
   const fetchTours = async () => {
     setLoading(true);
     try {
+      // Simulate slow network (1.5s delay)
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       const response = await fetch(url);
-      console.log("Response:", response);
-      const tours = await response.json();
-      console.log("Tours:", tours);
-      setTours(tours);
+      const data = await response.json();
+      setTours(data);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching tours:", error);
+      setLoading(false);
+      setTours([]); // fallback
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -33,15 +36,15 @@ const App = () => {
 
   if (loading) {
     return (
-      <main>
+      <main id="main">
         <Loading />
       </main>
     );
   }
 
-  if (tours.length === 0) {
+  if (!loading && tours.length === 0) {
     return (
-      <main>
+      <main id="main">
         <div className="title">
           <h2>No Tours Left</h2>
           <button className="btn" onClick={fetchTours}>
@@ -53,7 +56,7 @@ const App = () => {
   }
 
   return (
-    <main>
+    <main id="main">
       <Tours tours={tours} removeTour={removeTour} />
     </main>
   );
