@@ -1,13 +1,10 @@
-
-
-import React, { useState, useEffect } from "react";
-import Loading from "./Loading";
+import React, { useEffect, useState } from "react";
 import Tours from "./Tours";
-import "../styles/App.css";
+import Loading from "./Loading";
 
 const url = "https://api.allorigins.win/raw?url=https://course-api.com/react-tours-project";
 
-function App() {
+const App = () => {
   const [loading, setLoading] = useState(true);
   const [tours, setTours] = useState([]);
 
@@ -19,17 +16,15 @@ function App() {
   const fetchTours = async () => {
     setLoading(true);
     try {
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       const response = await fetch(url);
+      console.log("Response:", response);
       const tours = await response.json();
-      setLoading(false);
+      console.log("Tours:", tours);
       setTours(tours);
     } catch (error) {
-      setLoading(false);
-      console.log(error);
+      console.error("Error fetching tours:", error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -48,7 +43,7 @@ function App() {
     return (
       <main>
         <div className="title">
-          <h2>No tours left</h2>
+          <h2>No Tours Left</h2>
           <button className="btn" onClick={fetchTours}>
             Refresh
           </button>
@@ -62,7 +57,6 @@ function App() {
       <Tours tours={tours} removeTour={removeTour} />
     </main>
   );
-}
+};
 
 export default App;
-
